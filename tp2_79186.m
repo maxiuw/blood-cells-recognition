@@ -23,8 +23,8 @@ for v=1:max(size(listaF)) %loop to read the images form the list
     end
     
     
-    ObjBord=0;%objetos que tocam ou intersetam o bordo da imagem
-    ObjOK=0; %Número total de objetos que não intersetam o bordo da imagem
+    ObjBord=0;% objects which touching the border of the image
+    ObjOK=0; %number of the object which are ok
     acanthocyte=0;
     degmacyte=0;
     echinocyte=0;
@@ -122,6 +122,7 @@ for v=1:max(size(listaF)) %loop to read the images form the list
     %Obj = (Efinal == 1);   % 1 is the label number of the first object.
     %     figure, imshow(Obj); title(sprintf('%s %s', NumSec,NumImg));
     
+    # 
     for k = 1:numel(s)
         if verLessThan('matlab','8.3') %test Matlab(8.3->2014a)
             per = s(k).PerimeterOld;
@@ -142,6 +143,11 @@ for v=1:max(size(listaF)) %loop to read the images form the list
             'VerticalAlignment', 'top','color', '[0.6 0.8 1]');
         
     end
+    
+    % creating db of the properties of the blood cells
+    % during this task, we could not use the outside database 
+    % it did not have the access to the template of the bloodcells
+     %solidity  %ecc    %ff %3 columns od H,S,V  %abs log(hu moment)/10
     T(:,:,5)=[
         0.8314    0.4134    0.6008    0.4742    0.1875    0.6801    0.1785
         0.7208    0.8074    0.4848    0.5855    0.2020    0.5586    0.1529
@@ -291,7 +297,7 @@ for v=1:max(size(listaF)) %loop to read the images form the list
         0.9584    0.8486    0.7909    0.7460    0.2116    1.5099    0.1617
         0.9551    0.7102    0.8435    0.8090    0.2993    1.6265    0.1733
         0.9756    0.6506    0.9829    0.8954    0.2563    1.3171    0.1779];
-    %solidity  %ecc    %ff %3 columns od H,S,V  %abs log(hu moment)/10
+   
     T(:,:,1) =[
         0.8066    0.4494    0.5754    0.5389    0.2123    0.7704    0.1783
         0.6865    0.8239    0.4500    0.7125    0.2445    0.6761    0.1502
@@ -329,7 +335,9 @@ for v=1:max(size(listaF)) %loop to read the images form the list
         0.9590    0.8555    0.7833    0.7563    0.2135    0.7619    0.1606
         0.9589    0.7104    0.8452    0.8130    0.3009    0.8171    0.1734
         0.9719    0.6600    0.9754    0.9133    0.2617    0.6722    0.1775];
-    
+        
+    # comparing each object to the possible solution and adding 1 to the total amount
+    # of particular objects if x object was found
     for k=1:numel(s)
         s(k).prop=[s(k).Solidity  s(k).Eccentricity   s(k).FormFactor...
             K(k,1) K(k,2) K(k,3) abs(log(s(k).inv(1,1)))/10];
